@@ -1,0 +1,48 @@
+{% extends 'staff/staff_masterpage.html' %}
+{% load static %}
+
+{% block header %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block content %}
+
+<h1 style="color: rgb(6, 6, 165); text-align: center;">
+  Generate Prescription
+</h1>
+
+<section class="section">
+
+    <div class="container"> 
+
+      <div class="row">
+          <table class="table table-primary table-striped">
+              <tr>
+                  <th>Sl No</th>
+                  <th>Patient name</th>
+                  <th>Doctor name</th>
+                  <th>Department</th>
+                  <th>Contact number</th>
+                  <!-- <th> Status </th> -->
+                  <th>Prescription</th>
+              </tr>
+              {% for i in patient_list %}
+              <tr>
+                  <td>{{forloop.counter}}</td>		
+                  <td>{{i.patient_name}}</td>		
+                  <td>{{i.doctor.doctor_name}}</td>
+                  <td>{{i.doctor.department.department}}</td>
+                  <td>{{i.mobile}}</td>
+                  <!-- <td> Active</td> -->
+                  <td> <button type="button" class="btn btn-light"> Print </button>  </td>
+              </tr>
+             {% endfor %}
+            </table>    
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
