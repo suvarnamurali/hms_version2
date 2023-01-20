@@ -34,11 +34,11 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input type="radio" name="medicine_time" value="Morning" checked class="medicine_time">
+                            <input type="radio" name="medicine_time1" value="Morning" checked class="medicine_time">
                             Morning
-                            <input type="radio" name="medicine_time" value="Noon" class="medicine_time"> Noon
-                            <input type="radio" name="medicine_time" value="Evening" class="medicine_time"> Evening
-                            <input type="radio" name="medicine_time" value="Night" class="medicine_time"> Night
+                            <input type="radio" name="medicine_time2" value="Noon" class="medicine_time"> Noon
+                            <input type="radio" name="medicine_time3" value="Evening" class="medicine_time"> Evening
+                            <input type="radio" name="medicine_time4" value="Night" class="medicine_time"> Night
                         </td>
                     </tr>
                     <tr>
@@ -65,20 +65,26 @@
         </div>
 
         <div class="col-lg-5 text-center">
-            <table class="table table-hover" id="prescription_tb">
-                <tr>
+            <table class="table table-hover">
+                <thead>
 
                     <th>Medicine</th>
                     <th>Days</th>
                     <th>Time</th>
                     <th>To be taken</th>
-                </tr>
+                    <th>       </th>
+                </thead>
+                <tbody  id="prescription_tb">
+               
+                
+                </tbody>
             </table>
+           
         </div>
     </div>
     <div class="row">
         <div class="col-md-10"></div>
-        <div class="col-md-2"><button class="btn btn-success" type="button" id="btn_presc" onclick="">Sumbit</button></div>
+        <div class="col-md-2"><button class="btn btn-success" type="button" id="btn_presc" >Sumbit</button></div>
     </div>
 </div>
 
@@ -133,12 +139,13 @@
 
         prescription_tb.appendChild(new_tr)
         for (let i = 0; i < medicine_time.length; i++) {
-            if (medicine_time[i].checked == true) {
-                td_medicine_time.innerHTML = medicine_time[i].value
-                new_tr.appendChild(td_medicine_time)
-                break
+            if (medicine_time[i].checked === true) {
+                td_medicine_time.innerHTML += medicine_time[i].value+"-"
+               
+                
             }
         }
+        new_tr.appendChild(td_medicine_time)
 
 
         for (let i = 0; i < intake_time.length; i++) {
@@ -236,6 +243,10 @@
             console.log(prescription_rows[0].children[0].innerHTML)
         }
 
+    })
+
+    $('#btn_presc').click(function(){
+        $('#prescription_tb tr').remove()
     })
 </script>
 

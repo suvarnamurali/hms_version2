@@ -121,9 +121,7 @@
 
 
                       <tbody id="tbody">
-                        {% for prescriptions in prescriptions%}
-
-                        {% endfor %}
+                       
 
                       </tbody>
 
@@ -194,9 +192,10 @@
               console.log(response.data)
               console.log(response.booking)
               data = response.data
+              doctor_name1=response.doctor_name
               booking=response.booking
 
-
+              $('#row1 div ').remove()
               $('#row1').append(`
               
                                 <div class="col-6">
@@ -205,11 +204,11 @@
                                 </div>
                                 <div class="col-6">
                                   <h5>Date : ${booking.booking_date} </h5>
-                                  <h5>Doctor name: ${booking.doctor_id} </h5>
+                                  <h5>Doctor name: ${doctor_name1} </h5>
                                 </div>
               
               `)
-
+              $('#tbody tr').remove()
               for (i of data) {
                 sno++
                 $('#tbody').append(`
