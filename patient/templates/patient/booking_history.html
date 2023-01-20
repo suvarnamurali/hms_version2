@@ -3,208 +3,272 @@
 
 {% block header %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+  @media screen {
+    #printSection {
+        display: none;
+    }
+  }
+  
+  @media print {
+    body * {
+      visibility:hidden;
+    }
+    #printSection, #printSection * {
+      visibility:visible;
+    }
+    #printSection {
+      position:absolute;
+      left:0;
+      top:0;
+    }
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
 
 
 <h1 style="color: rgb(6, 6, 165); text-align: center;">
-   Booking History
-  </h1>
-  
-  <section class="appoinment section">
-      <div class="container">
-        <div class="row">
-          {% if booking_records %}
-            <table class="table table-primary table-striped">
-                <tr>
-                    <th>Sl No</th>
-                    <th> Reference No</th>
-                    <th>Patient Name</th>
-                    <th> Doctor </th>
-                    
-                    <th> Date </th>
-                    <th> booking_id </th>
-                    <th> Time </th>
-                    <th> Status </th>
-                    {% if record.status == 'booked' %}
-                    <th> Action </th>
-                   {% endif %}
-                </tr>
-                {% for record in booking_records %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ record.reference_no }}</td>				
-                    <td> {{ record.patient.patient_name | title }} </td>
-                    <td> {{ record.doctor.doctor_name | title }} </td>
-                    <td> {{ record.booking_date }} </td>
-                    <td> {{ record.id}} </td>
-                    <td> {{ record.time }} </td>
-                    
-                    <td> {{ record.status }}</td>
-                    <td><button type="button"   class="btn btn-primary" value="{{ record.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="get_pre(this.value)">
-                      Prescription</button></td>
-                      
-                    <!-- <td> <a href="" class="btn btn-success" data-toggle="modal" data-target="#largeModal">Prescription</a></td> -->
-                  </tr>
+  Booking History
+</h1>
 
-                {% endfor %}
-               
-              </table> 
+<section class="appoinment section">
+  <div class="container">
+    <div class="row">
+      {% if booking_records %}
+      <table class="table table-primary table-striped">
+        <tr>
+          <th>Sl No</th>
+          <th> Reference No</th>
+          <th>Patient Name</th>
+          <th> Doctor </th>
 
-              {% else %}
+          <th> Date </th>
+          <th> booking_id </th>
+          <th> Time </th>
+          <th> Status </th>
+          {% if record.status == 'booked' %}
+          <th> Action </th>
+          {% endif %}
+        </tr>
+        {% for record in booking_records %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ record.reference_no }}</td>
+          <td> {{ record.patient.patient_name | title }} </td>
+          <td> {{ record.doctor.doctor_name | title }} </td>
+          <td> {{ record.booking_date }} </td>
+          <td> {{ record.id}} </td>
+          <td> {{ record.time }} </td>
 
-              <h2> No Records Found</h2>
-              
-              {% endif %}
+          <td> {{ record.status }}</td>
+          <td><button type="button" class="btn btn-primary" value="{{ record.id}}" data-bs-toggle="modal" 
+              data-bs-target="#exampleModal" onclick="get_pre(this.value)">
+              Prescription</button></td>
 
+          <!-- <td> <a href="" class="btn btn-success" data-toggle="modal" data-target="#largeModal">Prescription</a></td> -->
+        </tr>
 
-              <!-- modal  -->
+        {% endfor %}
 
-              <!-- Button trigger modal -->
+      </table>
+
+      {% else %}
+
+      <h2> No Records Found</h2>
+
+      {% endif %}
 
 
-<!-- Modal -->
-<div class="modal fade bg-transparent" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header ">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Prescription</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body bg-info ">
+      <!-- modal  -->
 
-        <div class="container">
+      <!-- Button trigger modal -->
 
-          <div class="row">
-            <div class="col-6">
-              <h5>Ref.No : 1109</h5>
-            <h5>Patient name: albert</h5>
+
+      <!-- Modal -->
+      <div class="modal fade bg-transparent" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header ">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Prescription</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-6">
-              <h5>Date : 11-8-2023</h5>
-            <h5>Doctor name: camus</h5>
-            </div>
-          </div>
+            <div class="modal-body bg-info ">
 
-          <div class="row">
-            <div class="col-12">
-              <h4>List of prescribed medications</h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <table class="table table-bordered table-striped-columns">
-                <thead>
-                  <th>Sl.No</th>
-                  <th>Medicine</th>
-                  <th>Days</th>
-                  <th>Time</th>
-                  <th>Intake Time</th>
-                </thead>
+              <div class="container">
 
-                
-                <tbody id="tbody">
-                  {% for prescriptions in prescriptions%}
+                <div class="row" id="row1">
                  
-                   {% endfor %}
-                 
-                </tbody>
-                
-              </table>
-            </div>
-          </div>
+                </div>
 
-<div class="row">
-  <div class="col-6">
-    <h5>Dr.Contact No: .....</h5>
-  </div>
+                <div class="row">
+                  <div class="col-12">
+                    <h4>List of prescribed medications</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table table-bordered table-striped-columns">
+                      <thead>
+                        <th>Sl.No</th>
+                        <th>Medicine</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Intake Time</th>
+                      </thead>
 
-  <div class="col-6">
-    <h5>E-mailid : dr@gmail.com</h5>
-  </div>
-</div>
+
+                      <tbody id="tbody">
+                        {% for prescriptions in prescriptions%}
+
+                        {% endfor %}
+
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <h5>Dr.Contact No:{{ record.doctor.doctor_contact }}</h5>
+                  </div>
+
+                  <div class="col-6">
+                    <h5>E-mailid :{{ record.doctor.doctor_email }} </h5>
+                  </div>
+                </div>
 
 
-        </div>
-        
-<!-- <table>
+              </div>
+
+              <!-- <table>
   <thead>
     <th></th>
   </thead>
 </table> -->
 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="btn_print">Print</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Print</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- modal  -->
+      <!-- modal  -->
 
-<!-- ajax  -->
+      <!-- ajax  -->
+      <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
 
-<script>
-  function get_pre(v) {
+      <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+      <script>
+        function get_pre(bid) {
 
-      // let tr_nodes = v.parentElement.parentElement.childNodes
-      // console.log(v)
-      // let bid= parseInt (tr_nodes[5].innerHTML)
-      let bid=v
+          // let tr_nodes = v.parentElement.parentElement.childNodes
+          // console.log(v)
+          // let bid= parseInt (tr_nodes[5].innerHTML)
 
-
+          let sno = 0
           $.ajaxSetup({
-              headers: {
-                  "X-CSRFToken": '{{ csrf_token }}'
-              }
+            headers: {
+              "X-CSRFToken": '{{ csrf_token }}'
+            }
           })
 
 
           $.ajax({
 
-              url: "{% url 'patient:view_Prescription' %}",
-              // contentType: 'application/json',
-              // dataType: 'json',
-              data: { 
-                'bid':bid
-              },
-              type: 'POST',
+            url: "{% url 'patient:view_Prescription' %}",
+            // contentType: 'application/json',
+            // dataType: 'json',
+            data: {
+              'bid': bid
+            },
+            type: 'POST',
 
-              success: function (response) {
-                console.log(response.data)
-                data=response.data
-
-                mstring=""
-                for(i in data){
-                  mstring+=  " <tr><td>"+i+"</td><td>"+i.medicine_name+"</td><td>"+i.days+"</td><td>"+i.medicine_time+"</td><td>"+i.intake_time +"</td></tr>"
+            success: function (response) {
+              console.log(response.data)
+              console.log(response.booking)
+              data = response.data
+              booking=response.booking
 
 
-                }
+              $('#row1').append(`
+              
+                                <div class="col-6">
+                                  <h5>Ref.No :${booking.reference_no} </h5>
+                                  <h5>Patient name:${booking.patient_name}</h5>
+                                </div>
+                                <div class="col-6">
+                                  <h5>Date : ${booking.booking_date} </h5>
+                                  <h5>Doctor name: ${booking.doctor_id} </h5>
+                                </div>
+              
+              `)
 
-                $('#tbody').append(mstring)
+              for (i of data) {
+                sno++
+                $('#tbody').append(`
+                                  <tr>
+                                      <td>${sno}</td>
+                                      <td>${i.medicine_name}</td>
+                                      <td>${i.days}</td>
+                                      <td>${i.medicine_time}</td>
+                                      <td>${i.intake_time}</td>
+                                  </tr>`)
 
               }
 
+            }
+
           })
 
+        }
+
+      
+      /*$('#btn_print').onclick(function pp(){
+        var modal=$('#exampleModal')
+        print(modal)
 
 
+        printElement(modal);
+      
+        
+      
 
-
-       
+      })*/
+      
+      document.getElementById("btn_print").onclick = function () {
+        printElement(document.getElementById("exampleModal"));
+      };
+      
+      function printElement(elem) {
+        var domClone = elem.cloneNode(true);
+      
+        var $printSection = document.getElementById("printSection");
+      
+        if (!$printSection) {
+          var $printSection = document.createElement("div");
+          $printSection.id = "printSection";
+          document.body.appendChild($printSection);
+        }
+      
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
       }
+      </script>
 
-  
-</script>
-
-<!-- ajax  -->
+      <!-- ajax  -->
 
 
 
-        </div>
-      </div>
-    </section>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

@@ -263,9 +263,12 @@ def view_Prescription(request):
     bid=request.POST['bid']
     print(bid)
     # bid=booking_records
-    prescriptions = Presciption.objects.get(id=bid)   
-    serialized_data = PrescriptionSerializer(data = prescriptions,many = True)
-    return JsonResponse({'data':serialized_data.data})
+    booking=Booking.objects.get(id=bid)
+    booking_set={'id':booking.id,'reference_no':booking.reference_no,'patient_name': booking.patient_name, 'booking_date':booking.booking_date, 'doctor_id':booking.doctor_id}
+    prescriptions = Presciption.objects.filter(id=bid)   
+    serialized_set = [{ 'id' : p.id, 'medicine_name' : p.medicine_name,'days':p.days,'medicine_time':p.medicine_time,'intake_time':p.intake_time,'booking_id':p.booking_id }  for p in prescriptions]
+    # serialized_data = PrescriptionSerializer(data = prescriptions,many = True)
+    return JsonResponse({'data':serialized_set,'booking':booking_set})
 
 
 

@@ -78,16 +78,24 @@
     </div>
     <div class="row">
         <div class="col-md-10"></div>
-        <div class="col-md-2"><button class="btn btn-success" type="button" id="btn_presc" onclick="location.reload()">Sumbit</button></div>
+        <div class="col-md-2"><button class="btn btn-success" type="button" id="btn_presc" onclick="">Sumbit</button></div>
     </div>
 </div>
 
 
 <script>
 
-    var object = {}
-    var object_arr = []
-    var tr_id = 1
+    let object = {}
+    
+    let object_arr = []
+    let tr_id = 1
+    let arr_index = 0
+
+    let obj_index = 0;
+    let temp_arr = []
+    let temp_index = 0
+    
+   
     $('#add_prescription').click(function () {
 
 
@@ -114,7 +122,6 @@
         let td_intake = document.createElement('td')
         let td_presc = document.createElement('td')
         let td_btn = document.createElement('span')
-
 
 
         td_medicine_name.innerHTML = medicine_name
@@ -152,14 +159,27 @@
         tr_id++
         new_tr.appendChild(td_btn)
 
-        object['medicine_name'] = medicine_name
+       /* object['medicine_name'] = medicine_name
         object['days'] = days
         object['medicine_time'] = td_medicine_time.innerHTML
         object['intake_time'] = td_intake.innerHTML
-        object['booking'] = $('#book_id').val()
+        object['booking'] = $('#book_id').val()*/
 
-        object_arr.push(object)
+        object.medicine_name = medicine_name
+        object.days= days
+        object.medicine_time = td_medicine_time.innerHTML
+        object.intake_time= td_intake.innerHTML
+        object.booking= $('#book_id').val()
 
+        console.log(object)
+        
+       
+
+       let temp_arr[i] = object
+       object_arr.push(temp_obj)
+       arr_index ++
+
+       console.log(temp_obj)
         console.log(object_arr)
 
     })
