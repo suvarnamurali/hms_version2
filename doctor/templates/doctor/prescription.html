@@ -95,7 +95,7 @@
     let temp_arr = []
     let temp_index = 0
     
-   
+   i=0
     $('#add_prescription').click(function () {
 
 
@@ -165,23 +165,23 @@
         object['intake_time'] = td_intake.innerHTML
         object['booking'] = $('#book_id').val()*/
 
-        object.medicine_name = medicine_name
-        object.days= days
-        object.medicine_time = td_medicine_time.innerHTML
-        object.intake_time= td_intake.innerHTML
-        object.booking= $('#book_id').val()
+        object[i]={'medicine_name' : medicine_name,'days':days,'medicine_time':td_medicine_time.innerHTML,'intake_time': td_intake.innerHTML,'booking': $('#book_id').val()}
+        /*object[i].
+        object[i].medicine_time = td_medicine_time.innerHTML
+        object[i].intake_time= td_intake.innerHTML
+        object[i].booking= $('#book_id').val()*/
 
-        console.log(object)
+        console.log(object[i])
         
        
 
-       let temp_arr[i] = object
-       object_arr.push(temp_obj)
-       arr_index ++
+       //let temp_arr[i] = object
+       object_arr.push(object[i])
+       //arr_index ++
 
-       console.log(temp_obj)
+      // console.log(temp_obj)
         console.log(object_arr)
-
+            i++
     })
 
 
