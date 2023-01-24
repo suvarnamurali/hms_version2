@@ -17,8 +17,9 @@ def doctor_home(request):
     patients_count = Patient.objects.all().count()
    
    
-    # today = datetime.strftime(datetime.today(),"%d-%m-%Y")
-    today = "20-01-2023" 
+    today = datetime.strftime(datetime.today(),"%d-%m-%Y")
+    print(today)
+   # today = "20-01-2023" 
      
     total_bookings = Booking.objects.filter(doctor = request.session['doctor'],booking_date = today, status = 'booked').count()
     print('jdwye',total_bookings)
@@ -56,8 +57,9 @@ def edit_profile(request):
 
 def appointment(request):
      
-    # today = datetime.strftime(datetime.today(), "%d/%m/%Y")
-    today = "20-01-2023" 
+    today = datetime.strftime(datetime.today(), "%d-%m-%Y")
+    print(today)
+    # today = "24-01-2023" 
     records = Booking.objects.filter(doctor = request.session['doctor'], status = 'booked',booking_date = today)
 
     return render(request, 'doctor/appointment.html',{'booking_records' : records})

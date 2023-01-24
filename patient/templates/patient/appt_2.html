@@ -186,10 +186,10 @@
 
     <!-- row start  -->
     <div class="row slot">
-        
+
         <div class="col-12" id="time_slot">
-             
-<!-- display button here -->
+
+            <!-- display button here -->
 
 
         </div>
@@ -221,14 +221,14 @@
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
-   
+
 
     $('#consultation_date').change(function () {
 
         let dt1 = $('#consultation_date').val()
 
-        
-         
+
+
         var dt = new Date($('#consultation_date').val())
         var selected_day = days[dt.getDay()]
         $('#time_slot').empty()
@@ -247,50 +247,49 @@
             data: {
                 dr_id: dr_id,
                 'selected_day': selected_day,
-                'selected_date' : $('#consultation_date').val()
+                'selected_date': $('#consultation_date').val()
             },
 
             success: function (response) {
 
                 let status = response.availability
                 var records = response.consultation_record
-                 
+
 
                 if (status == true) {
 
                     $('#div_slot').show()
                     $('#err_div').hide()
 
-                    console.log('bookings',response.bookings)
+                    console.log('bookings', response.bookings)
 
 
                     let records = response.consultation_record
 
                     console.log(response.consultation_record)
 
-                    
 
-var bookings = response.bookings[0]
 
-btn_no = 1
-for(let time in bookings){
-    console.log(time,bookings[time]);
-    let btn = document.createElement("button")
-    let btn_id = 'btn' + btn_no
-    btn.setAttribute('id', btn_id)
-    btn.setAttribute('onclick', 'display()')
-    btn.setAttribute('class', 'session-btn btn-border btn-time')
+                    var bookings = response.bookings[0]
 
-    if(bookings[time] == 'booked')
-    {
-       
-        btn.setAttribute('disabled', 'true')
-    }
-    btn.innerHTML = time
-    session_div.append(btn)
-    btn_no ++
-}
-                    
+                    btn_no = 1
+                    for (let time in bookings) {
+                        console.log(time, bookings[time]);
+                        let btn = document.createElement("button")
+                        let btn_id = 'btn' + btn_no
+                        btn.setAttribute('id', btn_id)
+                        btn.setAttribute('onclick', 'display()')
+                        btn.setAttribute('class', 'session-btn btn-border btn-time')
+
+                        if (bookings[time] == 'booked') {
+
+                            btn.setAttribute('disabled', 'true')
+                        }
+                        btn.innerHTML = time
+                        session_div.append(btn)
+                        btn_no++
+                    }
+
 
 
                 }
@@ -313,12 +312,12 @@ for(let time in bookings){
     var selected_btn;
     function display() {
 
-       
-        console.log(event.target.id,'////')
+
+        console.log(event.target.id, '////')
         selected_slot = document.getElementById(event.target.id)
         let all_btn = document.getElementsByClassName('btn-time')
         selected_btn = event.target.id
-        for(let i = 0; i<all_btn.length; i++){
+        for (let i = 0; i < all_btn.length; i++) {
 
             all_btn[i].style.backgroundColor = ''
         }
@@ -332,12 +331,12 @@ for(let time in bookings){
 
     $('#btn_proceed').click(function () {
 
-         
+
 
         let selected_time = document.getElementById(selected_btn).innerHTML
         console.log(selected_time)
         let selected_date = $('#consultation_date').val()
-        
+
 
         window.location.href = "{% url 'patient:appointment_3' %}?dr=" + dr_id + "&date=" + selected_date + "&time=" + selected_time
 
