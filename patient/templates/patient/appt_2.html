@@ -210,6 +210,8 @@
 </div>
 <div id="err_div">Doctor Not Available For Selected Date</div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 <script>
     var show_proceed = false;
     var btn_id = 0;
@@ -230,6 +232,10 @@
 
 
         var dt = new Date($('#consultation_date').val())
+        var cd = new Date()
+        
+        var cd1=cd.setDate(cd.getDate() - 1)
+
         var selected_day = days[dt.getDay()]
         $('#time_slot').empty()
         console.log(selected_day)
@@ -240,71 +246,94 @@
             }
         })
 
-        $.ajax({
+        if(dt < cd1){
+            console.log("dt < cd1")
+            console.log(dt,cd1)
+            alert("invalid date")
+            
+        }
+        else{
+            $.ajax({
 
-            url: "{% url 'patient:check-availability' %}",
-            type: 'POST',
-            data: {
-                dr_id: dr_id,
-                'selected_day': selected_day,
-                'selected_date': $('#consultation_date').val()
-            },
-
-            success: function (response) {
-
-                let status = response.availability
-                var records = response.consultation_record
-
-
-                if (status == true) {
-
-                    $('#div_slot').show()
-                    $('#err_div').hide()
-
-                    console.log('bookings', response.bookings)
-
-
-                    let records = response.consultation_record
-
-                    console.log(response.consultation_record)
-
-
-
-                    var bookings = response.bookings[0]
-
-                    btn_no = 1
-                    for (let time in bookings) {
-                        console.log(time, bookings[time]);
-                        let btn = document.createElement("button")
-                        let btn_id = 'btn' + btn_no
-                        btn.setAttribute('id', btn_id)
-                        btn.setAttribute('onclick', 'display()')
-                        btn.setAttribute('class', 'session-btn btn-border btn-time')
-
-                        if (bookings[time] == 'booked') {
-
-                            btn.setAttribute('disabled', 'true')
+                url: "{% url 'patient:check-availability' %}",
+                type: 'POST',
+                data: {
+                    dr_id: dr_id,
+                    'selected_day': selected_day,
+                    'selected_date': $('#consultation_date').val()
+                },
+    
+                success: function (response) {
+    
+                    let status = response.availability
+                    var records = response.consultation_record
+    
+    
+                    if (status == true) {
+    
+                        $('#div_slot').show()
+                        $('#err_div').hide()
+    
+                        console.log('bookings', response.bookings)
+    
+    
+                        let records = response.consultation_record
+    
+                        console.log(response.consultation_record)
+    
+    
+    
+                        var bookings = response.bookings[0]
+    
+                        btn_no = 1
+    
+                        var today1 = new Date().getHours().toString()
+                        
+    
+                       
+                        for (let time in bookings) {
+                            time1 = moment(time, ["h:mm A"]).format("HH").toString();
+                            
+                            console.log(time , bookings[time] ,today1,time1);
+                            
+                            let btn = document.createElement("button")
+                            let btn_id = 'btn' + btn_no
+                            btn.setAttribute('id', btn_id)
+                            btn.setAttribute('onclick', 'display()')
+                            btn.setAttribute('class', 'session-btn btn-border btn-time')
+    
+                            if ( time1 <= today1 ) {
+    
+                                btn.setAttribute('disabled', 'true')
+                            }
+                            if(bookings[time] == 'booked'){
+                                btn.setAttribute('disabled', 'true')
+                            }
+                            btn.innerHTML = time
+                            session_div.append(btn)
+                            btn_no++
                         }
-                        btn.innerHTML = time
-                        session_div.append(btn)
-                        btn_no++
+    
+    
+    
                     }
-
-
-
+    
+                    else {
+    
+                        $('#div_slot').hide()
+                        $('#err_div').show()
+                        console.log('no')
+    
+                    }
                 }
+    
+    
+            })
 
-                else {
-
-                    $('#div_slot').hide()
-                    $('#err_div').show()
-                    console.log('no')
-
-                }
-            }
+        }
 
 
-        })
+       
     })
 
 
